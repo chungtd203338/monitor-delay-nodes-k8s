@@ -26,6 +26,12 @@ Triển khai các pod lên các node
 ```console
 kubectl apply -f pods.yaml
 ```
+```
+NAME                            READY   STATUS    RESTARTS   AGE    IP              NODE      NOMINATED NODE   READINESS GATES
+pod1                            1/1     Running   0          122m   10.10.219.107   master    <none>           <none>
+pod2                            1/1     Running   0          122m   10.10.235.157   worker1   <none>           <none>
+pod3                            1/1     Running   0          122m   10.10.189.87    worker2   <none>           <none>
+```
 **Triển khai metrics-app để thu thập metrics**
 ```console
 cd app
@@ -53,6 +59,11 @@ kubectl apply -f grafana.yaml
 ```
 
 Thực hiện config prometheus trỏ đúng vào ip và pod của metrics-app ```metrics-app(x.x.x.x):1323``` trong configmap in file prometheus.yaml
+```
+NAME                            READY   STATUS    RESTARTS   AGE    IP              NODE      NOMINATED NODE   READINESS GATES
+metrics-server                  1/1     Running   0          170m   10.10.235.151   worker1   <none>           <none>
+
+```
 ```
 apiVersion: v1
 kind: ConfigMap
