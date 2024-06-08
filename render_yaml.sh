@@ -26,7 +26,7 @@ spec:
     - |
       sleep 3
       while true; do
-        $(for j in $(seq 1 $NODES); do if [ $i -ne $j ]; then echo "        "IP$j='$(kubectl get pod' pod$j '-o jsonpath='{.status.podIP}')'" && echo \"pod$i``pod$j \$(ping -c 1 "\$IP$j" | grep 'time=' | awk -F'time=' '{print \$2}' | awk '{print \$1}')\"; "; fi; done)
+        $(for j in $(seq 1 $NODES); do if [ $i -ne $j ]; then echo "        "IP$j='$(kubectl get pod' pod$j '-o jsonpath='{.status.podIP}')'" && echo \"node$i``node$j \$(ping -c 1 "\$IP$j" | grep 'time=' | awk -F'time=' '{print \$2}' | awk '{print \$1}')\"; "; fi; done)
         sleep $SLEEP;
       done
   nodeSelector:
