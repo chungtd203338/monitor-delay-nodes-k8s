@@ -1,0 +1,69 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod1
+spec:
+  containers:
+  - name: ping-container
+    image: portainer/kubectl-shell:latest
+    securityContext:
+      runAsUser: 0
+      runAsGroup: 0
+    command:
+    - /bin/sh
+    - -c
+    - |
+      while true; do
+                IP2=$(kubectl get pod pod2 -o jsonpath={.status.podIP}) && echo "pod1pod2 $(ping -c 1 $IP2 | grep 'time=' | awk -F'time=' '{print $2}' | awk '{print $1}')"; 
+        IP3=$(kubectl get pod pod3 -o jsonpath={.status.podIP}) && echo "pod1pod3 $(ping -c 1 $IP3 | grep 'time=' | awk -F'time=' '{print $2}' | awk '{print $1}')"; 
+        sleep 5;
+      done
+  nodeSelector:
+    pod-assign: node1
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod2
+spec:
+  containers:
+  - name: ping-container
+    image: portainer/kubectl-shell:latest
+    securityContext:
+      runAsUser: 0
+      runAsGroup: 0
+    command:
+    - /bin/sh
+    - -c
+    - |
+      while true; do
+                IP1=$(kubectl get pod pod1 -o jsonpath={.status.podIP}) && echo "pod2pod1 $(ping -c 1 $IP1 | grep 'time=' | awk -F'time=' '{print $2}' | awk '{print $1}')"; 
+        IP3=$(kubectl get pod pod3 -o jsonpath={.status.podIP}) && echo "pod2pod3 $(ping -c 1 $IP3 | grep 'time=' | awk -F'time=' '{print $2}' | awk '{print $1}')"; 
+        sleep 5;
+      done
+  nodeSelector:
+    pod-assign: node2
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod3
+spec:
+  containers:
+  - name: ping-container
+    image: portainer/kubectl-shell:latest
+    securityContext:
+      runAsUser: 0
+      runAsGroup: 0
+    command:
+    - /bin/sh
+    - -c
+    - |
+      while true; do
+                IP1=$(kubectl get pod pod1 -o jsonpath={.status.podIP}) && echo "pod3pod1 $(ping -c 1 $IP1 | grep 'time=' | awk -F'time=' '{print $2}' | awk '{print $1}')"; 
+        IP2=$(kubectl get pod pod2 -o jsonpath={.status.podIP}) && echo "pod3pod2 $(ping -c 1 $IP2 | grep 'time=' | awk -F'time=' '{print $2}' | awk '{print $1}')"; 
+        sleep 5;
+      done
+  nodeSelector:
+    pod-assign: node3
+---
