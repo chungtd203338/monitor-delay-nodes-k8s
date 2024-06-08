@@ -85,14 +85,14 @@ Truy cập vào Prometheus bằng Service Prometheus thực hiện truy vấn me
 NAME                 TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
 prometheus-service   NodePort   10.100.89.224   <none>        80:30165/TCP     130m
 ```
-***Lưu ý***
+**Lưu ý** </br>
 Metrics có dạng
 ```
 node1node2 51.912
 node2node3 52.104
 .................
 ```
-node1node2 là độ trễn từ node1 -> node2 (node1 node2 là label gắn ở các bước đầu),
+node1node2 là độ trễn từ node1 -> node2 (node1 node2 là label gắn ở các bước đầu) </br>
 51.912 đơn vị là ms
 
 Truy cập vào Grafana bằng Service Grafana thực hiện config đến prometheus và config dashboard mong muốn
