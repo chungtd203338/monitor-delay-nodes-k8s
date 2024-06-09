@@ -15,8 +15,8 @@ spec:
     - |
       sleep 3
       while true; do
-                IP2=$(kubectl get pod pod2 -o jsonpath={.status.podIP}) && echo "node1node2 $(ping -c 1 $IP2 | grep 'time=' | awk -F'time=' '{print $2}' | awk '{print $1}')"; 
-        IP3=$(kubectl get pod pod3 -o jsonpath={.status.podIP}) && echo "node1node3 $(ping -c 1 $IP3 | grep 'time=' | awk -F'time=' '{print $2}' | awk '{print $1}')"; 
+                IP2=$(kubectl get pod pod2 -o jsonpath={.status.podIP}) && echo "delay{from=node1,to=node2} $(ping -c 1 $IP2 | grep 'time=' | awk -F'time=' '{print $2}' | awk '{print $1}')"; 
+        IP3=$(kubectl get pod pod3 -o jsonpath={.status.podIP}) && echo "delay{from=node1,to=node3} $(ping -c 1 $IP3 | grep 'time=' | awk -F'time=' '{print $2}' | awk '{print $1}')"; 
         sleep 5;
       done
   nodeSelector:
@@ -39,8 +39,8 @@ spec:
     - |
       sleep 3
       while true; do
-                IP1=$(kubectl get pod pod1 -o jsonpath={.status.podIP}) && echo "node2node1 $(ping -c 1 $IP1 | grep 'time=' | awk -F'time=' '{print $2}' | awk '{print $1}')"; 
-        IP3=$(kubectl get pod pod3 -o jsonpath={.status.podIP}) && echo "node2node3 $(ping -c 1 $IP3 | grep 'time=' | awk -F'time=' '{print $2}' | awk '{print $1}')"; 
+                IP1=$(kubectl get pod pod1 -o jsonpath={.status.podIP}) && echo "delay{from=node2,to=node1} $(ping -c 1 $IP1 | grep 'time=' | awk -F'time=' '{print $2}' | awk '{print $1}')"; 
+        IP3=$(kubectl get pod pod3 -o jsonpath={.status.podIP}) && echo "delay{from=node2,to=node3} $(ping -c 1 $IP3 | grep 'time=' | awk -F'time=' '{print $2}' | awk '{print $1}')"; 
         sleep 5;
       done
   nodeSelector:
@@ -63,8 +63,8 @@ spec:
     - |
       sleep 3
       while true; do
-                IP1=$(kubectl get pod pod1 -o jsonpath={.status.podIP}) && echo "node3node1 $(ping -c 1 $IP1 | grep 'time=' | awk -F'time=' '{print $2}' | awk '{print $1}')"; 
-        IP2=$(kubectl get pod pod2 -o jsonpath={.status.podIP}) && echo "node3node2 $(ping -c 1 $IP2 | grep 'time=' | awk -F'time=' '{print $2}' | awk '{print $1}')"; 
+                IP1=$(kubectl get pod pod1 -o jsonpath={.status.podIP}) && echo "delay{from=node3,to=node1} $(ping -c 1 $IP1 | grep 'time=' | awk -F'time=' '{print $2}' | awk '{print $1}')"; 
+        IP2=$(kubectl get pod pod2 -o jsonpath={.status.podIP}) && echo "delay{from=node3,to=node2} $(ping -c 1 $IP2 | grep 'time=' | awk -F'time=' '{print $2}' | awk '{print $1}')"; 
         sleep 5;
       done
   nodeSelector:
