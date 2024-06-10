@@ -3,9 +3,7 @@ package main
 import (
 	"bytes"
 	"context"
-	"flag"
 	"io"
-	"os"
 	"strings"
 
 	// corev1 "k8s.io/api/core/v1"
@@ -16,7 +14,6 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
-	"k8s.io/client-go/tools/clientcmd"
 
 	"net/http"
 
@@ -24,15 +21,15 @@ import (
 )
 
 func main() {
-	kubeconfig := os.Getenv("KUBECONFIG")
-	if kubeconfig == "" {
-		kubeconfig = os.Getenv("HOME") + "/.kube/config"
-	}
-	flag.StringVar(&kubeconfig, "kubeconfig", kubeconfig, "path to kubeconfig file")
-	flag.Parse()
+	// kubeconfig := os.Getenv("KUBECONFIG")
+	// if kubeconfig == "" {
+	// 	kubeconfig = os.Getenv("HOME") + "/.kube/config"
+	// }
+	// flag.StringVar(&kubeconfig, "kubeconfig", kubeconfig, "path to kubeconfig file")
+	// flag.Parse()
 
-	config, err := clientcmd.BuildConfigFromFlags("", kubeconfig)
-	// config, err := rest.InClusterConfig()
+	// config, err := clientcmd.BuildConfigFromFlags("", kubeconfig)
+	config, err := rest.InClusterConfig()
 	if err != nil {
 		panic(err.Error())
 	}
