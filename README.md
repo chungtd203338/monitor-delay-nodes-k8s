@@ -46,6 +46,7 @@ chung123abc/metrics-server   v2.0      0a50d56b7b51   2 hours ago   1.01GB
 Có thể config tên images và push lên dockerhub trong file build.sh
 
 Triển khai metrics-app lên cụm k8s (thay đúng tên image đã build trong file metrics-server.yaml)
+*Nhớ cấp quyền service account cho pod metrcics-server*
 ```console
 cd ..
 cd manifest
@@ -54,6 +55,7 @@ kubectl apply -f metrics-server.yaml
 
 Triển khai Prometheus để collect metrics của metrics-app và Grafana để hiện thị metrics
 ```console
+kubectl create ns prometheus
 kubectl apply -f prometheus.yaml
 kubectl apply -f grafana.yaml
 ```
