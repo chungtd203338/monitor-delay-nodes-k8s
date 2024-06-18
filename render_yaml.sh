@@ -25,8 +25,9 @@ spec:
     - -c
     - |
       sleep 3
+      "nodeName_pod$i='$(kubectl get pod' pod$i '-o jsonpath='{.spec.nodeName}')'"
       while true; do
-        $(for j in $(seq 1 $NODES); do if [ $i -ne $j ]; then echo "        "IP$j='$(kubectl get pod' pod$j '-o jsonpath='{.status.podIP}')'" && echo \"delay{from=\\\"node$i\\\",to=\\\"node$j\\\"} \$(ping -c 1 "\$IP$j" | grep 'time=' | awk -F'time=' '{print \$2}' | awk '{print \$1}')\"; "; fi; done)
+        $(for j in $(seq 1 $NODES); do if [ $i -ne $j ]; then echo "        "IP$j='$(kubectl get pod' pod$j '-o jsonpath='{.status.podIP}')'" && "nodeName_pod$j='$(kubectl get pod' pod$j '-o jsonpath='{.spec.nodeName}')'" && echo \"delay{from=\\\""\$nodeName_pod$i"\\\",to=\\\""\$nodeName_pod$j"\\\"} \$(ping -c 1 "\$IP$j" | grep 'time=' | awk -F'time=' '{print \$2}' | awk '{print \$1}')\"; "; fi; done)
         sleep $SLEEP;
       done
   nodeSelector:
