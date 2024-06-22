@@ -1,0 +1,17 @@
+kind: NetworkPolicy
+metadata:
+  name: abc-test
+  labels:
+    helm.sh/chart: test-0.1.0
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: test
+    app.kubernetes.io/instance: abc
+  
+spec:
+  policyTypes:
+    - Ingress
+    - Egress
+
+  ingress:
+
+  egress:

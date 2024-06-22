@@ -11,19 +11,18 @@ spec:
     ports:
     - name: metrics-port
       containerPort: 1323
-
-
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
   name: metrics-server-service
+  labels:
+    app: metrics-app
 spec:
   type: NodePort
   selector:
     app: metrics-server
   ports:
-    - port: 1323
+    - name: http-metrics
+      port: 1323
       targetPort: 1323
-      nodePort: 30007
