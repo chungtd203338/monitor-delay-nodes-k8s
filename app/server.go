@@ -3,10 +3,8 @@ package main
 import (
 	"bytes"
 	"context"
-	"fmt"
 	"io"
 	"strings"
-	"time"
 
 	// corev1 "k8s.io/api/core/v1"
 	// metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -44,7 +42,7 @@ func main() {
 	podLog := make([]*rest.Request, len(nodes.Items))
 	log := make([]string, len(nodes.Items))
 	podName := make([]string, len(nodes.Items))
-	line := int64(2)
+	line := int64(len(nodes.Items) - 1)
 	for i := 1; i <= len(nodes.Items); i++ {
 		podName[i-1] = "pod" + strconv.Itoa(i)
 		podLog[i-1] = clientset.CoreV1().Pods("default").GetLogs(podName[i-1], &corev1.PodLogOptions{
@@ -53,14 +51,12 @@ func main() {
 	}
 	e := echo.New()
 	e.GET("/metrics", func(c echo.Context) error {
-		start := time.Now()
 		for i := 0; i < len(nodes.Items); i++ {
 			podLogs, err := podLog[i].Stream(context.TODO())
 			if err != nil {
 				panic(err.Error())
 			}
 			defer podLogs.Close()
-
 			buf := new(bytes.Buffer)
 			_, err = io.Copy(buf, podLogs)
 			if err != nil {
@@ -70,12 +66,8 @@ func main() {
 			lines := strings.Split(str, "\n")
 			log[i] = strings.Join(lines, "\n")
 		}
-
 		laslog := strings.Join(log, "")
-		end := time.Now()
-		elapsed := end.Sub(start)
-		fmt.Printf("Thời gian thực hiện: %s\n", elapsed)
 		return c.String(http.StatusOK, laslog)
 	})
-	e.Logger.Fatal(e.Start(":1323"))
+	e.Logger.Fatal(e.Start(":9090"))
 }

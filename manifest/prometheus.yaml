@@ -11,7 +11,7 @@ data:
     scrape_configs:
       - job_name: 'prometheus'
         static_configs:
-          - targets: ['10.10.219.76:1323']
+          - targets: ['10.10.219.95:1323']
 
 ---
 
